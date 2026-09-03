@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.gstack/
+
+# Working source images. The processed, web-ready versions live in public/.
+/*.png
+/*.jpg
+/*.jpeg
+
+# Local tool state
+/.claude/settings.local.json
+/.agents/
+/skills-lock.json
+/.claude/skills/
