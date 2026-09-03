@@ -47,6 +47,14 @@
 /* NOTE: no `scroll-behavior: smooth` here — it conflicts with ScrollTrigger's
    position calculations. Anchor smoothing is handled by GSAP instead. */
 
+/* Anchor landing. The sticky header is ~100px tall, and every section carries
+   96–128px of its own top padding, so a plain `scroll-mt-24` drops the reader
+   on a screen of empty padding with the section's content pushed off the
+   bottom. Each anchored section instead sets
+       scroll-margin-top = header height + 12px gap − its own top padding
+   which is why several of them are negative. Landing puts the eyebrow (or
+   heading) 12px under the header on every link. */
+
 body {
   background: var(--background);
   color: var(--foreground);

@@ -1,12 +1,7 @@
-import { services, servicesIntro, faqs, site } from "@/lib/site";
+import { services, servicesIntro, site } from "@/lib/site";
 import Image from "next/image";
-import {
-  IconCheck,
-  IconChevron,
-  IconClock,
-  IconShield,
-  IconSparkle,
-} from "../Icons";
+import Link from "next/link";
+import { IconCheck, IconClock, IconShield, IconSparkle } from "../Icons";
 import CardFanCarousel, { type CardItem } from "@/components/ui/card-fan-carousel";
 import { Reveal } from "../motion/Reveal";
 
@@ -43,7 +38,7 @@ export function BoldServices() {
   return (
     // Keeps the shared section rhythm so this heading stays fully below the
     // fold and never peeks up into the hero.
-    <section id="services" className="scroll-mt-24 bg-white py-24 sm:py-32">
+    <section id="services" className="scroll-mt-4 bg-white py-24 sm:-scroll-mt-4 sm:py-32">
       <div className="mx-auto max-w-[1240px] px-6">
         <Reveal>
           <Display className="max-w-3xl">
@@ -106,7 +101,7 @@ export function BoldWhy() {
   ];
 
   return (
-    <section id="why" className="scroll-mt-32">
+    <section id="why" className="scroll-mt-4 sm:-scroll-mt-4">
       {/* ---- Dark band: heading + the two photos ---------------------- */}
       <div className="relative bg-ink pt-24 text-white sm:pt-32">
         <div className="mx-auto max-w-[1240px] px-6">
@@ -261,50 +256,6 @@ export function BoldWhy() {
 
 /* ------------------------------------------------------------------ */
 
-export function BoldFaq() {
-  return (
-    <section id="faq" className="scroll-mt-24 bg-[#FAFAFA] py-24 sm:py-32">
-      <div className="mx-auto grid max-w-[1240px] gap-14 px-6 lg:grid-cols-[0.85fr_1.15fr]">
-        <Reveal>
-          <Display>
-            Answered <span className="font-light italic">before you ask.</span>
-          </Display>
-          <p className="mt-6 max-w-sm leading-relaxed text-ink-60">
-            Still unsure about something? Call {site.owner} at{" "}
-            <a
-              href={site.phoneHref}
-              className="font-semibold text-ink underline decoration-lime decoration-2 underline-offset-4"
-            >
-              {site.phone}
-            </a>
-            .
-          </p>
-        </Reveal>
-
-        <Reveal stagger className="space-y-3">
-          {faqs.map((f) => (
-            <details
-              key={f.q}
-              name="bold-faq"
-              className="group rounded-2xl border border-hairline bg-white px-7 transition-colors duration-200 open:border-ink"
-            >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-6 font-display font-semibold tracking-[-0.01em] text-ink marker:content-none">
-                {f.q}
-                <span className="grid size-8 shrink-0 place-items-center rounded-full bg-lime-soft transition-all duration-300 group-open:rotate-180 group-open:bg-lime">
-                  <IconChevron className="size-4" />
-                </span>
-              </summary>
-              <p className="pb-6 leading-relaxed text-ink-60">{f.a}</p>
-            </details>
-          ))}
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-
 export function BoldFooter() {
   return (
     <footer className="mt-auto bg-ink py-16 text-white/70">
@@ -334,11 +285,19 @@ export function BoldFooter() {
             <ul className="mt-5 space-y-3">
               {services.map((s) => (
                 <li key={s.slug}>
-                  <a href="#services" className="transition-colors hover:text-lime">
+                  <Link
+                    href="/#services"
+                    className="transition-colors hover:text-lime"
+                  >
                     {s.title}
-                  </a>
+                  </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/faq" className="transition-colors hover:text-lime">
+                  FAQ
+                </Link>
+              </li>
             </ul>
           </div>
 

@@ -271,3 +271,94 @@ export const faqs = [
     a: "Call us within 24 hours and we'll come back and make it right at no charge. That's what the service guarantee means.",
   },
 ];
+
+export type Transformation = {
+  slug: string;
+  /** Room or space, used as the card title. */
+  title: string;
+  /** Which of the four services this job falls under. */
+  service: string;
+  /** One line on what actually changed between the two frames. */
+  note: string;
+  /** Described for someone who cannot see the pair. */
+  beforeAlt: string;
+  afterAlt: string;
+};
+
+/**
+ * Real jobs, shot from the same spot before and after. Both halves of each
+ * pair are cropped to 4:3 from the same original frame, so the wipe in
+ * <BeforeAfter /> lines up pixel for pixel.
+ */
+export const transformations: Transformation[] = [
+  {
+    slug: "kitchen",
+    title: "Kitchen",
+    service: "House Cleaning",
+    note: "Sink emptied, granite polished, cooktop degreased and floors mopped.",
+    beforeAlt:
+      "Kitchen counter buried in dirty dishes, pans and food packets, with a stained cooktop",
+    afterAlt:
+      "The same kitchen with clear polished granite, an empty sink and a spotless cooktop",
+  },
+  {
+    slug: "bathroom",
+    title: "Bathroom",
+    service: "Deep Cleaning",
+    note: "Tub and surround scrubbed back to white, counter cleared, fresh towels hung.",
+    beforeAlt:
+      "Bathroom with a heavily stained tub surround, cluttered counter and towels on the floor",
+    afterAlt:
+      "The same bathroom with a bright white tub, clear counter and neatly hung towels",
+  },
+  {
+    slug: "home-office",
+    title: "Home office",
+    service: "House Cleaning",
+    note: "Desk cleared, shelves sorted and every surface dusted down.",
+    beforeAlt:
+      "Home office desk covered in papers, cables, cups and snack wrappers with overflowing shelves",
+    afterAlt:
+      "The same home office with an empty desk, tidy shelves and clean floor",
+  },
+  {
+    slug: "construction",
+    title: "Job site",
+    service: "Construction Cleanup",
+    note: "Offcuts, sheeting and rubble hauled out; the slab swept walk-through ready.",
+    beforeAlt:
+      "Building site strewn with timber offcuts, plastic sheeting and rubble",
+    afterAlt:
+      "The same building site cleared, with materials stacked and the concrete slab swept",
+  },
+  {
+    slug: "office-desk",
+    title: "Workstation",
+    service: "Office Cleaning",
+    note: "Desk wiped down, cables tidied, bin emptied and relined.",
+    beforeAlt:
+      "Office desk stacked with paperwork, stained mugs, loose cables and an overflowing bin",
+    afterAlt:
+      "The same office desk clear and wiped down, with a fresh bin liner",
+  },
+  {
+    slug: "bedroom",
+    title: "Bedroom",
+    service: "House Cleaning",
+    note: "Bed made, laundry put away, carpet vacuumed edge to edge.",
+    beforeAlt:
+      "Bedroom with an unmade bed, clothes over the chair and jeans on the floor",
+    afterAlt:
+      "The same bedroom with the bed made up under a quilt and the floor clear",
+  },
+  {
+    slug: "guest-room",
+    title: "Guest room",
+    service: "Deep Cleaning",
+    note: "Linens changed, clutter cleared and everything put back in place.",
+    beforeAlt:
+      "Guest room with rumpled bedding, books piled on the nightstand and clothes on a chair",
+    afterAlt:
+      "The same guest room made up with a folded quilt and clear surfaces",
+  },
+];

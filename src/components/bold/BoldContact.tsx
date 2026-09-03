@@ -14,7 +14,7 @@ export function BoldContact() {
     "mb-2 block font-display text-[12px] font-semibold tracking-[0.12em] text-ink-60 uppercase";
 
   return (
-    <section id="contact" className="scroll-mt-24 bg-white py-24 sm:py-32">
+    <section id="contact" className="scroll-mt-4 bg-white py-24 sm:-scroll-mt-4 sm:py-32">
       <div className="mx-auto max-w-[1240px] px-6">
         <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
           <Reveal>

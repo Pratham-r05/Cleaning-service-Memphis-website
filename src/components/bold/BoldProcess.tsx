@@ -40,7 +40,7 @@ export function BoldProcess() {
   const [active, setActive] = useState(0);
 
   return (
-    <section id="process" className="scroll-mt-32 bg-white py-24 sm:py-32">
+    <section id="process" className="scroll-mt-4 bg-white py-24 sm:-scroll-mt-4 sm:py-32">
       <div className="mx-auto max-w-[1240px] px-6">
         <Reveal>
           <h2 className="font-display text-[clamp(2.1rem,5.4vw,4rem)] leading-[0.95] font-bold tracking-[-0.03em] text-ink uppercase">

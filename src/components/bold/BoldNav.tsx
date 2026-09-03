@@ -1,19 +1,30 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { site } from "@/lib/site";
 import { IconMenu, IconClose } from "../Icons";
 
+/**
+ * Hrefs are root-relative rather than bare hashes so the same nav works from
+ * /faq, where "#services" would have nothing to scroll to.
+ */
 const links = [
-  { href: "#top", label: "Home" },
-  { href: "#services", label: "Services" },
-  { href: "#process", label: "How it works" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/", label: "Home" },
+  { href: "/#services", label: "Services" },
+  { href: "/#results", label: "Before & after" },
+  { href: "/#process", label: "How it works" },
+  { href: "/faq", label: "FAQ" },
 ];
 
 export function BoldNav() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
+
+  // Only routes can be "current" here; the hash links all point back at /.
+  const isCurrent = (href: string) => href === pathname;
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 20);
@@ -38,22 +49,27 @@ export function BoldNav() {
       }`}
     >
       <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-6 px-6 py-6">
-        <a
-          href="#top"
+        <Link
+          href="/"
           className="font-display text-2xl leading-none font-bold tracking-[-0.02em] text-ink uppercase"
         >
           {site.name}
-        </a>
+        </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-9 lg:flex">
           {links.map((l) => (
-            <a
+            <Link
               key={l.href}
               href={l.href}
-              className="font-display text-[13px] font-medium tracking-[0.06em] text-ink/75 uppercase transition-colors hover:text-ink"
+              aria-current={isCurrent(l.href) ? "page" : undefined}
+              className={`font-display text-[13px] font-medium tracking-[0.06em] uppercase transition-colors hover:text-ink ${
+                isCurrent(l.href)
+                  ? "text-ink underline decoration-lime decoration-2 underline-offset-8"
+                  : "text-ink/75"
+              }`}
             >
               {l.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -67,12 +83,12 @@ export function BoldNav() {
               @
             </span>
           </a>
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             className="hidden rounded-full bg-lime px-8 py-4 font-display text-[13px] font-bold tracking-[0.08em] text-ink uppercase transition-all duration-200 hover:bg-lime-dark sm:block cursor-pointer"
           >
             Contact Us
-          </a>
+          </Link>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -93,22 +109,25 @@ export function BoldNav() {
       >
         <nav aria-label="Mobile" className="flex flex-col">
           {links.map((l) => (
-            <a
+            <Link
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="border-b border-hairline py-4 font-display text-sm font-semibold tracking-[0.06em] text-ink uppercase"
+              aria-current={isCurrent(l.href) ? "page" : undefined}
+              className={`border-b border-hairline py-4 font-display text-sm font-semibold tracking-[0.06em] uppercase ${
+                isCurrent(l.href) ? "text-ink" : "text-ink/70"
+              }`}
             >
               {l.label}
-            </a>
+            </Link>
           ))}
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             onClick={() => setOpen(false)}
             className="mt-5 rounded-full bg-lime py-4 text-center font-display text-sm font-bold tracking-[0.08em] text-ink uppercase"
           >
             Contact Us
-          </a>
+          </Link>
         </nav>
       </div>
     </header>
