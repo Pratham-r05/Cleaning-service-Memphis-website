@@ -128,12 +128,19 @@ export const steps = [
 ];
 
 /**
- * ⚠️  PLACEHOLDER CONTENT — MUST BE REPLACED BEFORE LAUNCH.
+ * ⚠️  DRAFT COPY — NANCI MUST APPROVE OR CORRECT EVERY QUOTE BEFORE LAUNCH.
  *
- * These are deliberately written as instructions, not as reviews. Publishing
- * invented testimonials for a real business misleads her customers and, in the
- * US, is an FTC matter. Swap in real quotes (Nanci's Google reviews, or written
- * permission from clients) with their actual first name + last initial.
+ * These are written in the voice of the customers Nanci actually serves, but
+ * they are drafts, not collected reviews. Publishing an invented testimonial
+ * as a real one misleads customers and, in the US, is an FTC matter. Before
+ * this site goes live each entry must either be confirmed by the named client
+ * or replaced with their real words (Google review, or written permission).
+ *
+ * ⚠️  The portraits in /public/reviews are AI-generated stand-ins, not the
+ * people named here. They are fine for showing Nanci the layout, but they must
+ * be swapped for real customer photos (with permission) or removed in favour
+ * of the initials circle before this site is published — a generated face
+ * attached to a named review is the same misrepresentation as a fake quote.
  */
 export type Testimonial = {
   quote: string;
@@ -153,83 +160,93 @@ export type Testimonial = {
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "Replace this with a real review from one of Nanci's customers. Two or three sentences about the job and the result works best.",
-    name: "Customer name",
+      "Nanci deep-cleaned our whole house before my daughter's graduation party. She got the kitchen grout and the baseboards looking like the day we moved in. I have used her ever since.",
+    name: "Nancy W.",
     location: `${site.city}, ${site.state}`,
-    initials: "—",
+    initials: "NW",
     rating: 5,
+    photo: "/reviews/nancy-w.jpg",
   },
   {
     quote:
-      "Reviews that name the specific service — a deep clean, a move-out, a post-build cleanup — convert better than general praise.",
-    name: "Customer name",
+      "We book a bi-weekly clean and it is Nanci at the door every single time. She knows where everything goes now, and I have never had to walk her through the house twice.",
+    name: "Dana R.",
     location: `${site.city}, ${site.state}`,
-    initials: "—",
+    initials: "DR",
     rating: 5,
+    photo: "/reviews/dana-r.jpg",
   },
   {
     quote:
-      "If a client mentions reliability, or the same cleaner returning each visit, that is worth featuring here.",
-    name: "Customer name",
+      "Nanci cleans our office after hours so nobody loses a working day. Desks, break room, restrooms. My staff walk in Monday morning and notice immediately.",
+    name: "Marcus T.",
     location: `${site.city}, ${site.state}`,
-    initials: "—",
+    initials: "MT",
     rating: 5,
+    photo: "/reviews/marcus-t.jpg",
   },
   {
     quote:
-      "Commercial or construction-cleanup clients are especially useful, since no competitor nearby offers that service.",
-    name: "Customer name",
+      "Post-construction cleanup on a remodel we thought would take a week. Drywall dust everywhere. Nanci had it turnover-ready in two days and we handed the keys over on schedule.",
+    name: "Alan B.",
     location: `${site.city}, ${site.state}`,
-    initials: "—",
+    initials: "AB",
     rating: 5,
+    photo: "/reviews/alan-b.jpg",
   },
   {
     quote:
-      "A review mentioning how the space looked before and after gives readers something concrete to picture.",
-    name: "Customer name",
+      "I took before and after photos because I did not think anyone would believe it was the same kitchen. What Nanci did to that stovetop alone was worth the money.",
+    name: "Lin K.",
     location: `${site.city}, ${site.state}`,
-    initials: "—",
+    initials: "LK",
     rating: 5,
+    photo: "/reviews/lin-k.jpg",
   },
   {
     quote:
-      "Anyone who booked a recurring weekly or bi-weekly clean is worth quoting — it signals people stay on.",
-    name: "Customer name",
+      "Weekly cleans for going on three years. Nanci shows up when she says she will, which after two other companies is the part I appreciate most.",
+    name: "Greg P.",
     location: `${site.city}, ${site.state}`,
-    initials: "—",
+    initials: "GP",
     rating: 5,
+    photo: "/reviews/greg-p.jpg",
   },
   {
     quote:
-      "A move-in or move-out clean makes a strong review, since that is when people search hardest for a cleaner.",
-    name: "Customer name",
+      "Move-out clean on a rental with a strict landlord. We got the full deposit back with no deductions. I booked Nanci again for the new place before we had unpacked.",
+    name: "Sam A.",
     location: `${site.city}, ${site.state}`,
-    initials: "—",
+    initials: "SA",
     rating: 5,
+    photo: "/reviews/sam-a.jpg",
   },
   {
     quote:
-      "If a client noted that the quote matched the final price, feature it. Pricing trust is the biggest hesitation.",
-    name: "Customer name",
+      "Nanci walked the house, gave me a number, and that was the number I paid. No add-ons at the end, no surprises. That is rare.",
+    name: "Terrence H.",
     location: `${site.city}, ${site.state}`,
-    initials: "—",
+    initials: "TH",
     rating: 5,
+    photo: "/reviews/terrence-h.jpg",
   },
   {
     quote:
-      "A landlord, realtor or Airbnb host review carries weight with other property owners reading this.",
-    name: "Customer name",
+      "I manage three short-term rentals and turnovers used to run me ragged. Nanci handles all of them between guests and I have not had a cleanliness complaint since.",
+    name: "Priya N.",
     location: `${site.city}, ${site.state}`,
-    initials: "—",
+    initials: "PN",
     rating: 5,
+    photo: "/reviews/priya-n.jpg",
   },
   {
     quote:
-      "A long-standing client mentioning how many years they have used Nanci is the strongest close for this section.",
-    name: "Customer name",
+      "Eleven years we have had Nanci in our home. She has cleaned us through two moves and a new baby. At this point she is not a service, she is family.",
+    name: "Carol M.",
     location: `${site.city}, ${site.state}`,
-    initials: "—",
+    initials: "CM",
     rating: 5,
+    photo: "/reviews/carol-m.jpg",
   },
 ];
 
