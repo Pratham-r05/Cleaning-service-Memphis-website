@@ -10,15 +10,15 @@ export function Process() {
             How it works
           </p>
           <h2 className="mt-3 font-heading text-[clamp(2rem,4vw,2.9rem)] leading-tight font-bold text-brand-800">
-            Three steps. No runaround.
+            Four steps. No runaround.
           </h2>
         </Reveal>
 
-        <Reveal stagger className="relative mt-16 grid gap-10 sm:grid-cols-3">
+        <Reveal stagger className="relative mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Connecting rule behind the steps */}
           <span
             aria-hidden
-            className="absolute top-7 left-0 hidden h-px w-full bg-gradient-to-r from-brand-200 via-brand-300 to-brand-200 sm:block"
+            className="absolute top-7 left-0 hidden h-px w-full bg-gradient-to-r from-brand-200 via-brand-300 to-brand-200 lg:block"
           />
           {steps.map((s) => (
             <div key={s.n} className="relative">

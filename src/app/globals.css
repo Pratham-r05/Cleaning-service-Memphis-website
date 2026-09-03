@@ -89,3 +89,30 @@ p {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Scalloped seam between a dark band and the section below it. The strip is
+   one radius tall and each mask tile is two radii wide, so every tile shows
+   the top half of a circle — a row of domes in the *lower* section's colour
+   rising into the band above. Colour comes from the element's background, so
+   the same class works on any pairing. */
+.scallop-seam {
+  height: 44px;
+  -webkit-mask-image: radial-gradient(circle 44px at 50% 100%, #000 98%, transparent 100%);
+  -webkit-mask-size: 88px 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-image: radial-gradient(circle 44px at 50% 100%, #000 98%, transparent 100%);
+  mask-size: 88px 100%;
+  mask-repeat: repeat-x;
+}
+
+/* Badge rotation. The reduced-motion block above flattens the duration, so
+   the sticker simply sits still for anyone who asked for that. */
+@keyframes badge-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-badge-spin {
+  animation: badge-spin 26s linear infinite;
+}

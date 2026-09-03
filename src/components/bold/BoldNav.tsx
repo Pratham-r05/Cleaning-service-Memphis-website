@@ -11,23 +11,6 @@ const links = [
   { href: "#faq", label: "FAQ" },
 ];
 
-function ArrowUpRight({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden
-    >
-      <path d="M7 17 17 7M8 7h9v9" />
-    </svg>
-  );
-}
-
 export function BoldNav() {
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
@@ -49,7 +32,9 @@ export function BoldNav() {
   return (
     <header
       className={`sticky top-0 z-50 transition-colors duration-300 ${
-        solid ? "bg-white/90 backdrop-blur-md" : "bg-transparent"
+        solid
+          ? "bg-white shadow-[0_1px_0_0_rgba(0,0,0,0.07)]"
+          : "bg-transparent"
       }`}
     >
       <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-6 px-6 py-6">
@@ -78,7 +63,9 @@ export function BoldNav() {
             aria-label={`Email ${site.owner}`}
             className="hidden size-12 shrink-0 place-items-center rounded-full border border-ink/25 text-ink transition-all duration-200 hover:border-ink hover:bg-ink hover:text-white sm:grid cursor-pointer"
           >
-            <ArrowUpRight className="size-5" />
+            <span aria-hidden className="font-display text-[20px] leading-none font-bold">
+              @
+            </span>
           </a>
           <a
             href="#contact"

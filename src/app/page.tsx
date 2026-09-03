@@ -1,9 +1,9 @@
 import { BoldNav } from "@/components/bold/BoldNav";
 import { BoldHero } from "@/components/bold/BoldHero";
+import { BoldProcess } from "@/components/bold/BoldProcess";
 import {
   BoldServices,
   BoldWhy,
-  BoldProcess,
   BoldFaq,
   BoldFooter,
 } from "@/components/bold/BoldSections";

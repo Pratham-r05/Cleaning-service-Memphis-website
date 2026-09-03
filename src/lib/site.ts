@@ -118,7 +118,12 @@ export const steps = [
   {
     n: "03",
     title: "Come home to clean",
-    body: "We arrive on schedule with our own supplies and equipment. If anything's missed, we come back.",
+    body: "We arrive on schedule with our own supplies and equipment — the same trusted hands every visit.",
+  },
+  {
+    n: "04",
+    title: "Get sparkling results",
+    body: "We finish with a walk-through so you see the result for yourself. If anything's missed, we come back at no charge.",
   },
 ];
 
