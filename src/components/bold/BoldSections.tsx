@@ -34,6 +34,8 @@ export function BoldServices() {
   }));
 
   return (
+    // Keeps the shared section rhythm so this heading stays fully below the
+    // fold and never peeks up into the hero.
     <section id="services" className="scroll-mt-24 bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-[1240px] px-6">
         <Reveal>
