@@ -41,7 +41,11 @@ yarn-error.log*
 next-env.d.ts
 .gstack/
 
-# Working source images. The processed, web-ready versions live in public/.
+# Working files: unprocessed source photos, reference screenshots and
+# before/after shots. The web-ready versions live in public/.
+/assets/
+
+# Same, for anything still dropped straight into the project root.
 /*.png
 /*.jpg
 /*.jpeg
