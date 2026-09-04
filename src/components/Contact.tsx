@@ -15,7 +15,7 @@ export function Contact() {
   return (
     <section id="contact" className="scroll-mt-24 py-24 sm:py-28">
       <div className="mx-auto max-w-6xl px-5">
-        <div className="grid gap-12 rounded-[2rem] border border-brand-100 bg-gradient-to-br from-brand-50 to-cream p-8 sm:p-12 lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="grid gap-12 rounded-[2rem] border border-brand-100 bg-gradient-to-br from-brand-50 to-cream p-6 sm:p-12 lg:grid-cols-[0.85fr_1.15fr]">
           <Reveal>
             <p className="font-heading text-sm font-semibold tracking-[0.18em] text-accent-600 uppercase">
               Free estimate
@@ -57,7 +57,7 @@ export function Contact() {
                   <span className="block text-xs tracking-wide text-brand-800/60 uppercase">
                     Email
                   </span>
-                  <span className="block truncate font-heading font-semibold text-brand-800">
+                  <span className="block wrap-anywhere font-heading text-[15px] font-semibold text-brand-800 sm:text-base">
                     {site.email}
                   </span>
                 </span>

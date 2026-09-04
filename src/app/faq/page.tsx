@@ -121,7 +121,7 @@ export default function FaqPage() {
                       <span className="block font-display text-[11px] font-semibold tracking-[0.12em] text-ink-60 uppercase">
                         Email
                       </span>
-                      <span className="block truncate font-display font-bold tracking-[-0.01em] text-ink">
+                      <span className="block wrap-anywhere font-display font-bold tracking-[-0.01em] text-ink">
                         {site.email}
                       </span>
                     </span>

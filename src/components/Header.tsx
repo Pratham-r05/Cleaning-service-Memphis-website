@@ -30,6 +30,17 @@ export function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  // The sheet pushes the page down rather than overlaying it, so without this
+  // the reader can scroll the page out from under an open menu.
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
@@ -90,7 +101,7 @@ export function Header() {
       <div
         id="mobile-nav"
         hidden={!open}
-        className="border-t border-brand-100 bg-cream px-5 pb-5 md:hidden"
+        className="max-h-[calc(100svh-4.5rem)] overflow-y-auto border-t border-brand-100 bg-cream px-5 pb-5 md:hidden"
       >
         <nav aria-label="Mobile" className="flex flex-col">
           {nav.map((n) => (
