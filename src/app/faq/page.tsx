@@ -58,7 +58,7 @@ export default function FaqPage() {
                   <span className="h-2 w-2 rounded-full bg-lime" />
                   Questions
                 </p>
-                <h1 className="mt-5 font-display text-[clamp(2.4rem,6.4vw,5rem)] leading-[0.92] font-bold tracking-[-0.03em] uppercase">
+                <h1 className="mt-5 font-display text-[clamp(2.15rem,6.4vw,5rem)] leading-[0.92] font-bold tracking-[-0.03em] uppercase">
                   Answered{" "}
                   <span className="font-light text-lime italic">
                     before you ask.

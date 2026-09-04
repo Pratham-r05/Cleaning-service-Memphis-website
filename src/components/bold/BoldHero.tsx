@@ -96,8 +96,8 @@ export function BoldHero() {
                 width={2320}
                 height={2836}
                 priority
-                sizes="(max-width: 1024px) 40vw, (max-width: 1280px) 280px, 385px"
-                className="bh-art h-auto w-[clamp(140px,22.5vw,280px)] max-h-[64vh] shrink-0 object-contain object-bottom xl:w-[clamp(280px,27vw,385px)]"
+                sizes="(max-width: 767px) 40vw, (max-width: 1023px) 30vw, (max-width: 1280px) 280px, 385px"
+                className="bh-art h-auto w-[clamp(120px,22.5vw,280px)] max-h-[64vh] shrink-0 object-contain object-bottom md:w-[clamp(200px,30vw,320px)] lg:w-[clamp(140px,22.5vw,280px)] xl:w-[clamp(280px,27vw,385px)]"
               />
               <Image
                 src="/hero-supplies.png"
@@ -106,8 +106,8 @@ export function BoldHero() {
                 width={1536}
                 height={1024}
                 priority
-                sizes="(max-width: 1024px) 52vw, (max-width: 1280px) 370px, 515px"
-                className="bh-supplies h-auto w-[clamp(170px,30vw,370px)] max-h-[50vh] shrink object-contain object-bottom xl:-ml-6 xl:w-[clamp(370px,36vw,515px)]"
+                sizes="(max-width: 767px) 52vw, (max-width: 1023px) 40vw, (max-width: 1280px) 370px, 515px"
+                className="bh-supplies h-auto w-[clamp(145px,30vw,370px)] max-h-[50vh] shrink object-contain object-bottom md:w-[clamp(240px,40vw,430px)] lg:w-[clamp(170px,30vw,370px)] xl:-ml-6 xl:w-[clamp(370px,36vw,515px)]"
               />
             </div>
 

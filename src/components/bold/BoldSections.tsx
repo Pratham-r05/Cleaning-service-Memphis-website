@@ -47,17 +47,25 @@ export function BoldServices() {
           </Display>
         </Reveal>
 
-        <div className="mt-14 grid items-center gap-10 lg:grid-cols-[1.62fr_1fr] lg:gap-12">
+        {/* Two columns only from xl. At lg the fan is squeezed into a ~540px
+            track, and no card size that still reads as a card leaves each
+            title clear of the card stacked on top of it — 1024 rendered
+            "OFFICE CLEANIN" and "DEEP CLEANIN". Below xl the fan takes the
+            full container instead, which is the layout that already works
+            at tablet widths. */}
+        <div className="mt-10 grid items-center gap-10 sm:mt-14 xl:grid-cols-[1.62fr_1fr] xl:gap-12">
           <div className="min-w-0">
             <CardFanCarousel cards={cards} />
           </div>
 
           <Reveal className="min-w-0">
-            <p className="text-[17px] leading-[1.6] font-medium text-ink sm:text-[18px]">
+            {/* Capped so the single-column tablet layout does not run this to a
+                90-character measure across the full container. */}
+            <p className="max-w-[62ch] text-[17px] leading-[1.6] font-medium text-ink sm:text-[18px] xl:max-w-none">
               {servicesIntro}
             </p>
 
-            <p className="mt-6 font-display text-sm font-bold tracking-[0.04em] text-ink/75 uppercase">
+            <p className="mt-6 hidden font-display text-sm font-bold tracking-[0.04em] text-ink/75 uppercase sm:block">
               Hover or tap a card for details
             </p>
 
@@ -260,9 +268,9 @@ export function BoldFooter() {
   return (
     <footer className="mt-auto bg-ink py-16 text-white/70">
       <div className="mx-auto max-w-[1240px] px-6">
-        <div className="grid gap-12 border-b border-white/12 pb-12 lg:grid-cols-[1.6fr_1fr_1fr]">
-          <div>
-            <p className="font-display text-3xl leading-none font-bold tracking-[-0.02em] text-white uppercase">
+        <div className="grid gap-10 border-b border-white/12 pb-12 sm:grid-cols-2 sm:gap-12 lg:grid-cols-[1.6fr_1fr_1fr]">
+          <div className="sm:col-span-2 lg:col-span-1">
+            <p className="font-display text-2xl leading-none font-bold tracking-[-0.02em] text-white uppercase sm:text-3xl">
               {site.name}
             </p>
             <p className="mt-5 max-w-sm leading-relaxed">

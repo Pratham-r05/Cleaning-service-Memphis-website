@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useCallback,
+} from "react";
 import Image from "next/image";
 import gsap from "gsap";
 
@@ -35,6 +41,27 @@ const FAN_POSITIONS = [
 const SPREAD_REM = 25; // x units used by getSlotConfig at multiplier 1
 const MAX_ROT = 14; // degrees at the outermost slot
 
+/* -- Card sizing -----------------------------------------------------------
+   Sized from the container, not from viewport breakpoints. The fan needs a
+   roughly 2.7:1 container-to-card ratio before the spread is wide enough to
+   leave each card's bottom-left title clear of the card stacked on top of it.
+   Viewport breakpoints could not hold that ratio: at 1024 the two-column grid
+   kicks in and squeezes the fan into a ~540px column while the old breakpoints
+   grew the cards to their widest, which is what clipped "OFFICE CLEANING" and
+   "DEEP CLEANING" down to a few letters. Driving the width off the measured
+   container keeps the ratio at every width, and the max matches the widest of
+   the old breakpoints so desktop renders exactly as before.                 */
+const CARD_RATIO = 2.68;
+const CARD_MIN = 150;
+const CARD_MAX = 264;
+const CARD_ASPECT = 4 / 3; // height = width * aspect
+const LAYOUT_LEAD = 1.41; // layout height as a multiple of the card height
+
+const cardWidthFor = (containerW: number) =>
+  containerW
+    ? Math.round(Math.min(CARD_MAX, Math.max(CARD_MIN, containerW / CARD_RATIO)))
+    : CARD_MAX;
+
 /**
  * Widest spread that still keeps the outer cards inside `containerW`.
  * Container-relative rather than viewport-relative, so the fan can sit in a
@@ -51,16 +78,9 @@ function computeMultiplier(containerW: number, cardW: number, cardH: number) {
 }
 
 /** Scales y-offsets down when the viewport is too short for the ideal layout. */
-function getHeightMultiplier(width: number) {
-  let idealPx: number;
-  if (width < 480) idealPx = 24 * 16;
-  else if (width < 640) idealPx = 25 * 16;
-  else if (width < 768) idealPx = 26 * 16;
-  else if (width < 1024) idealPx = 28 * 16;
-  else idealPx = 31 * 16;
-
+function getHeightMultiplier(layoutH: number) {
   const available = window.innerHeight * 0.7;
-  return available >= idealPx ? 1 : available / idealPx;
+  return available >= layoutH ? 1 : available / layoutH;
 }
 
 function getSlotConfig(totalCards: number, slot: number) {
@@ -88,12 +108,6 @@ function getSlotConfig(totalCards: number, slot: number) {
 const ARROW_CLASSES =
   "relative flex items-center justify-center rounded-full border-[1.5px] border-black/10 bg-black/5 text-black/40 cursor-pointer shrink-0 z-30 outline-none transition-colors duration-300 hover:border-black/25 hover:text-black/70 active:opacity-70";
 
-/** Matches the ideal heights in getHeightMultiplier. */
-const LAYOUT_H =
-  "h-[24rem] min-[480px]:h-[25rem] min-[640px]:h-[26rem] min-[768px]:h-[28rem] min-[1024px]:h-[31rem]";
-const CARD_SIZE =
-  "w-[12rem] h-[16rem] min-[480px]:w-[13rem] min-[480px]:h-[17.3rem] min-[640px]:w-[14rem] min-[640px]:h-[18.6rem] min-[768px]:w-[15rem] min-[768px]:h-[20rem] min-[1024px]:w-[16.5rem] min-[1024px]:h-[22rem]";
-
 export default function CardFanCarousel({ cards }: CardFanCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const isAnimating = useRef(false);
@@ -108,6 +122,26 @@ export default function CardFanCarousel({ cards }: CardFanCarouselProps) {
   );
   // Touch has no hover, so a tap toggles the reverse face.
   const [flipped, setFlipped] = useState<number | null>(null);
+  const [cardW, setCardW] = useState(CARD_MAX);
+
+  const cardH = Math.round(cardW * CARD_ASPECT);
+  const layoutH = Math.round(cardH * LAYOUT_LEAD);
+
+  // Measure before paint so the first fan animation starts from the right size.
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const measure = () => {
+      const next = cardWidthFor(container.offsetWidth);
+      setCardW((prev) => (prev === next ? prev : next));
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(container);
+    return () => ro.disconnect();
+  }, []);
 
   const getVisibleMap = useCallback(
     (center: number) => {
@@ -164,7 +198,7 @@ export default function CardFanCarousel({ cards }: CardFanCarouselProps) {
       card0.offsetWidth,
       card0.offsetHeight,
     );
-    const hMult = getHeightMultiplier(window.innerWidth);
+    const hMult = getHeightMultiplier(layoutH);
     const slotCount = needsPagination ? MAX_VISIBLE : totalCards;
     const config = (slot: number) => getSlotConfig(slotCount, slot);
 
@@ -277,7 +311,7 @@ export default function CardFanCarousel({ cards }: CardFanCarouselProps) {
         cardElements[0].offsetWidth,
         cardElements[0].offsetHeight,
       );
-      const hM = getHeightMultiplier(window.innerWidth);
+      const hM = getHeightMultiplier(layoutH);
 
       visibleEntries.forEach(({ el, slot }) => {
         const base = config(slot);
@@ -377,7 +411,7 @@ export default function CardFanCarousel({ cards }: CardFanCarouselProps) {
       ro.disconnect();
       if (leaveTimer) clearTimeout(leaveTimer);
     };
-  }, [centerIndex, totalCards, getVisibleMap, needsPagination]);
+  }, [centerIndex, totalCards, getVisibleMap, needsPagination, layoutH]);
 
   if (!totalCards) return null;
 
@@ -396,137 +430,194 @@ export default function CardFanCarousel({ cards }: CardFanCarouselProps) {
     </svg>
   );
 
-  return (
-    <section className="relative z-20 flex w-full flex-col items-center overflow-x-clip">
-      <div className="flex w-full items-center justify-center">
-        <div
-          ref={containerRef}
-          className={`fan-layout relative flex w-full items-center justify-center ${LAYOUT_H}`}
-        >
-          {cards.map((card, index) => {
-            const face = (
-              <div className={`relative h-full w-full [transform-style:preserve-3d] transition-transform duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:[transform:rotateY(180deg)] group-focus-visible:[transform:rotateY(180deg)] ${
-                  flipped === index ? "[transform:rotateY(180deg)]" : ""
-                }`}>
-                {/* Front */}
-                <div className="absolute inset-0 overflow-hidden rounded-[1.4rem] shadow-[0_18px_50px_-20px_rgba(0,0,0,0.4)] [backface-visibility:hidden]">
-                  <Image
-                    src={card.imgUrl}
-                    alt={card.alt ?? ""}
-                    fill
-                    sizes="(max-width: 768px) 45vw, 288px"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-5 pt-14">
-                    <p className="max-w-[6rem] font-display text-[12px] leading-[1.12] font-bold tracking-[-0.01em] text-white uppercase sm:max-w-[6.5rem] sm:text-[13px]">
-                      {card.title}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Reverse */}
-                <div className="absolute inset-0 flex flex-col overflow-hidden rounded-[1.4rem] bg-ink p-5 text-white sm:p-7 shadow-[0_18px_50px_-20px_rgba(0,0,0,0.5)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                  {card.eyebrow && (
-                    <p className="font-display text-[11px] font-bold tracking-[0.18em] text-lime uppercase">
-                      {card.eyebrow}
-                    </p>
-                  )}
-                  <p className="mt-1.5 font-display text-base leading-[1.1] font-bold tracking-[-0.01em] text-white uppercase sm:mt-2 sm:text-xl">
-                    {card.title}
-                  </p>
-                  <p className="mt-2.5 text-[13px] leading-[1.45] font-medium text-white/95 sm:mt-3 sm:text-[15px]">
-                    {card.blurb}
-                  </p>
-                  <ul className="mt-4 space-y-2 [&>li:nth-child(n+3)]:hidden sm:mt-5 sm:space-y-2.5 sm:[&>li:nth-child(n+3)]:flex">
-                    {card.points?.map((p) => (
-                      <li
-                        key={p}
-                        className="flex items-start gap-2 text-[12px] leading-snug font-medium text-white sm:gap-2.5 sm:text-[14px]"
-                      >
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.4"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="mt-[3px] h-3.5 w-3.5 shrink-0 text-lime"
-                          aria-hidden
-                        >
-                          <path d="m4.5 12.5 5 5 10-11" />
-                        </svg>
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            );
-
-            const cls = `fan-card group absolute ${CARD_SIZE} [perspective:1400px] cursor-pointer will-change-transform data-[flipped=true]:z-30!`;
-
-            return card.linkUrl ? (
-              <a
-                key={index}
-                href={card.linkUrl}
-                target={card.linkUrl.startsWith("http") ? "_blank" : "_self"}
-                rel="noopener noreferrer"
-                className={cls}
-              >
-                {face}
-              </a>
-            ) : (
-              <div
-                key={index}
-                className={cls}
-                tabIndex={0}
-                role="button"
-                aria-expanded={flipped === index}
-                aria-label={`${card.title} — show details`}
-                data-flipped={flipped === index}
-                onClick={() => setFlipped(flipped === index ? null : index)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setFlipped(flipped === index ? null : index);
-                  }
-                }}
-              >
-                {face}
-              </div>
-            );
-          })}
+  /** Front and reverse faces, shared by the fan and the phone-width row. */
+  const cardFace = (card: CardItem, index: number, compact: boolean) => (
+    <div
+      className={`relative h-full w-full [transform-style:preserve-3d] transition-transform duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:[transform:rotateY(180deg)] group-focus-visible:[transform:rotateY(180deg)] ${
+        flipped === index ? "[transform:rotateY(180deg)]" : ""
+      }`}
+    >
+      {/* Front */}
+      <div className="absolute inset-0 overflow-hidden rounded-[1.4rem] shadow-[0_18px_50px_-20px_rgba(0,0,0,0.4)] [backface-visibility:hidden]">
+        <Image
+          src={card.imgUrl}
+          alt={card.alt ?? ""}
+          fill
+          sizes={compact ? "(max-width: 640px) 78vw, 288px" : "(max-width: 768px) 45vw, 288px"}
+          className="object-cover"
+        />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-5 pt-14">
+          <p
+            className={`font-display font-bold tracking-[-0.01em] text-white uppercase ${
+              compact
+                ? "text-[15px] leading-[1.15]"
+                : "max-w-[6rem] text-[12px] leading-[1.12] sm:max-w-[6.8rem] sm:text-[13px]"
+            }`}
+          >
+            {card.title}
+          </p>
         </div>
       </div>
 
-      {needsPagination && (
-        <div className="z-30 mt-4 flex items-center justify-center gap-4 md:mt-6">
-          <button
-            className={`${ARROW_CLASSES} h-10 w-10 md:h-12 md:w-12`}
-            onClick={() => cycle("left")}
-            aria-label="Previous"
+      {/* Reverse */}
+      <div className="absolute inset-0 flex flex-col overflow-hidden rounded-[1.4rem] bg-ink p-5 text-white sm:p-7 shadow-[0_18px_50px_-20px_rgba(0,0,0,0.5)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
+        {card.eyebrow && (
+          <p className="font-display text-[11px] font-bold tracking-[0.18em] text-lime uppercase">
+            {card.eyebrow}
+          </p>
+        )}
+        <p className="mt-1.5 font-display text-base leading-[1.1] font-bold tracking-[-0.01em] text-white uppercase sm:mt-2 sm:text-xl">
+          {card.title}
+        </p>
+        <p className="mt-2.5 text-[13px] leading-[1.45] font-medium text-white/95 sm:mt-3 sm:text-[15px]">
+          {card.blurb}
+        </p>
+        <ul
+          className={`mt-4 space-y-2 sm:mt-5 sm:space-y-2.5 sm:[&>li:nth-child(n+3)]:flex ${
+            compact ? "" : "[&>li:nth-child(n+3)]:hidden"
+          }`}
+        >
+          {card.points?.map((p) => (
+            <li
+              key={p}
+              className="flex items-start gap-2 text-[12px] leading-snug font-medium text-white sm:gap-2.5 sm:text-[14px]"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="mt-[3px] h-3.5 w-3.5 shrink-0 text-lime"
+                aria-hidden
+              >
+                <path d="m4.5 12.5 5 5 10-11" />
+              </svg>
+              {p}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+
+  const flipHandlers = (index: number) => ({
+    tabIndex: 0,
+    role: "button" as const,
+    "aria-expanded": flipped === index,
+    "aria-label": `${cards[index].title} — show details`,
+    "data-flipped": flipped === index,
+    onClick: () => setFlipped(flipped === index ? null : index),
+    onKeyDown: (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        setFlipped(flipped === index ? null : index);
+      }
+    },
+  });
+
+  return (
+    <div className="relative z-20 w-full">
+      {/* -- Phone widths: a snap-scrolling row -------------------------------
+          Four fanned cards cannot both fit and stay legible under ~640px — the
+          spread collapses until each title is covered by the card in front of
+          it. A row shows one card whole with the next peeking, which is also
+          the gesture a phone reader expects. Kept as a CSS swap rather than a
+          JS media query so there is no hydration flash, and the hidden branch's
+          lazy images never enter the viewport, so neither branch pays for the
+          other's downloads. */}
+      <div className="sm:hidden">
+        <ul
+          className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-6 pt-2 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          aria-label="Services"
+        >
+          {cards.map((card, index) => (
+            <li
+              key={index}
+              className="w-[78vw] max-w-[19rem] shrink-0 snap-center"
+            >
+              <div
+                className="group relative aspect-[3/4] w-full cursor-pointer [perspective:1400px]"
+                {...flipHandlers(index)}
+              >
+                {cardFace(card, index, true)}
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-1 text-center font-display text-[11px] font-bold tracking-[0.14em] text-ink-30 uppercase">
+          Swipe · tap a card for details
+        </p>
+      </div>
+
+      {/* -- sm and up: the fan --------------------------------------------- */}
+      <section className="hidden w-full flex-col items-center overflow-x-clip sm:flex">
+        <div className="flex w-full items-center justify-center">
+          <div
+            ref={containerRef}
+            className="fan-layout relative flex w-full items-center justify-center"
+            style={{ height: layoutH }}
           >
-            {chevron("left")}
-          </button>
-          <div className="flex items-center gap-2">
-            {cards.map((_, i) => (
-              <span
-                key={i}
-                className={`h-2 w-2 rounded-full transition-all duration-300 ${
-                  i === centerIndex ? "scale-[1.3] bg-black/70" : "bg-black/15"
-                }`}
-              />
-            ))}
+            {cards.map((card, index) => {
+              const cls =
+                "fan-card group absolute [perspective:1400px] cursor-pointer will-change-transform data-[flipped=true]:z-30!";
+              const size = { width: cardW, height: cardH };
+
+              return card.linkUrl ? (
+                <a
+                  key={index}
+                  href={card.linkUrl}
+                  target={card.linkUrl.startsWith("http") ? "_blank" : "_self"}
+                  rel="noopener noreferrer"
+                  className={cls}
+                  style={size}
+                >
+                  {cardFace(card, index, false)}
+                </a>
+              ) : (
+                <div
+                  key={index}
+                  className={cls}
+                  style={size}
+                  {...flipHandlers(index)}
+                >
+                  {cardFace(card, index, false)}
+                </div>
+              );
+            })}
           </div>
-          <button
-            className={`${ARROW_CLASSES} h-10 w-10 md:h-12 md:w-12`}
-            onClick={() => cycle("right")}
-            aria-label="Next"
-          >
-            {chevron("right")}
-          </button>
         </div>
-      )}
-    </section>
+
+        {needsPagination && (
+          <div className="z-30 mt-4 flex items-center justify-center gap-4 md:mt-6">
+            <button
+              className={`${ARROW_CLASSES} h-10 w-10 md:h-12 md:w-12`}
+              onClick={() => cycle("left")}
+              aria-label="Previous"
+            >
+              {chevron("left")}
+            </button>
+            <div className="flex items-center gap-2">
+              {cards.map((_, i) => (
+                <span
+                  key={i}
+                  className={`h-2 w-2 rounded-full transition-all duration-300 ${
+                    i === centerIndex ? "scale-[1.3] bg-black/70" : "bg-black/15"
+                  }`}
+                />
+              ))}
+            </div>
+            <button
+              className={`${ARROW_CLASSES} h-10 w-10 md:h-12 md:w-12`}
+              onClick={() => cycle("right")}
+              aria-label="Next"
+            >
+              {chevron("right")}
+            </button>
+          </div>
+        )}
+      </section>
+    </div>
   );
 }
