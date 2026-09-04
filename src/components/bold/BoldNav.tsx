@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { site } from "@/lib/site";
@@ -9,29 +9,90 @@ import { IconMenu, IconClose, IconPhone } from "../Icons";
 /**
  * Hrefs are root-relative rather than bare hashes so the same nav works from
  * /faq, where "#services" would have nothing to scroll to.
+ *
+ * `section` is the id the link scrolls to on the home page. Comparing hrefs to
+ * the pathname can only ever match "/" there, which left the marker parked
+ * under Home no matter how far down the page you were; these ids are what the
+ * scroll spy below matches against instead. They are listed in document order.
  */
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/#services", label: "Services" },
-  { href: "/#results", label: "Before & after" },
-  { href: "/#process", label: "How it works" },
+  { href: "/", label: "Home", section: "top" },
+  { href: "/#services", label: "Services", section: "services" },
+  { href: "/#results", label: "Before & after", section: "results" },
+  { href: "/#process", label: "How it works", section: "process" },
   { href: "/faq", label: "FAQ" },
 ];
+
+const sectionIds = links
+  .map((l) => l.section)
+  .filter((id): id is string => Boolean(id));
 
 export function BoldNav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
+  const [active, setActive] = useState(sectionIds[0]);
+  const barRef = useRef<HTMLDivElement>(null);
 
-  // Only routes can be "current" here; the hash links all point back at /.
-  const isCurrent = (href: string) => href === pathname;
+  const onHome = pathname === "/";
+
+  /**
+   * A link is current when its own route is open, or — for the home page's
+   * in-page links — when its section is the one being read. Sections with no
+   * link of their own (why, testimonials, contact) leave the last link passed
+   * marked, which is the usual behaviour for a marker like this.
+   */
+  const isCurrent = (link: (typeof links)[number]) =>
+    link.section ? onHome && active === link.section : link.href === pathname;
 
   useEffect(() => {
-    const onScroll = () => setSolid(window.scrollY > 20);
-    onScroll();
+    // Both readers of the scroll position share one listener: the bar's
+    // background, and — on the home page only — which section is being read.
+    let frame = 0;
+
+    const read = () => {
+      frame = 0;
+      setSolid(window.scrollY > 20);
+      // The panel pushes the page down rather than overlaying it, so opening it
+      // slides every section past the reading line and would re-mark whichever
+      // one lands under it. Hold the marker until the panel closes.
+      if (!onHome || open) return;
+
+      // The line the reader is actually reading at, just clear of the bar.
+      const line = (barRef.current?.offsetHeight ?? 0) + 24;
+
+      // Whichever section starts closest above that line is the one being
+      // read. Picking it by position rather than by list order matters: the
+      // nav lists "Before & after" ahead of "How it works", but the page runs
+      // the other way round, so walking the list and keeping the last match
+      // marked "How it works" the moment you reached the before/after band.
+      let current = sectionIds[0];
+      let closest = -Infinity;
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const { top } = el.getBoundingClientRect();
+        if (top <= line && top > closest) {
+          closest = top;
+          current = id;
+        }
+      }
+      setActive((prev) => (prev === current ? prev : current));
+    };
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(read);
+    };
+
+    read();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [onHome, open]);
 
   useEffect(() => {
     if (!open) return;
@@ -63,7 +124,10 @@ export function BoldNav() {
           : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-3 px-5 py-4 sm:gap-6 sm:px-6 sm:py-6">
+      <div
+        ref={barRef}
+        className="mx-auto flex max-w-[1240px] items-center justify-between gap-3 px-5 py-4 sm:gap-6 sm:px-6 sm:py-6"
+      >
         <Link
           href="/"
           className="font-display text-lg leading-none font-bold tracking-[-0.02em] text-ink uppercase whitespace-nowrap sm:text-xl lg:text-2xl"
@@ -76,9 +140,11 @@ export function BoldNav() {
             <Link
               key={l.href}
               href={l.href}
-              aria-current={isCurrent(l.href) ? "page" : undefined}
+              aria-current={
+                isCurrent(l) ? (l.section ? "location" : "page") : undefined
+              }
               className={`font-display text-[13px] font-medium tracking-[0.06em] whitespace-nowrap uppercase transition-colors hover:text-ink ${
-                isCurrent(l.href)
+                isCurrent(l)
                   ? "text-ink underline decoration-lime decoration-2 underline-offset-8"
                   : "text-ink/75"
               }`}
@@ -137,9 +203,13 @@ export function BoldNav() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              aria-current={isCurrent(l.href) ? "page" : undefined}
-              className={`border-b border-hairline py-4 font-display text-sm font-semibold tracking-[0.06em] uppercase ${
-                isCurrent(l.href) ? "text-ink" : "text-ink/70"
+              aria-current={
+                isCurrent(l) ? (l.section ? "location" : "page") : undefined
+              }
+              className={`border-b border-hairline py-4 font-display text-sm font-semibold tracking-[0.06em] uppercase transition-colors ${
+                isCurrent(l)
+                  ? "text-ink underline decoration-lime decoration-2 underline-offset-8"
+                  : "text-ink/70"
               }`}
             >
               {l.label}
