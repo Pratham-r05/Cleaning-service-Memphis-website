@@ -18,8 +18,8 @@ const reasons = [
   },
   {
     Icon: IconShield,
-    title: "Guaranteed service",
-    body: "If something's missed, we come back and fix it free. You should never pay twice for one clean.",
+    title: "Same hands, every time",
+    body: `${site.owner} runs every job personally — you get the same trusted cleaner each visit, not a rotating crew.`,
   },
   {
     Icon: IconSparkle,

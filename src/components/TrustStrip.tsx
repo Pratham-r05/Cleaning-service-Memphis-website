@@ -2,7 +2,7 @@ import { IconCheck } from "./Icons";
 
 const items = [
   "Free estimates",
-  "Guaranteed service",
+  "Flat pricing, no surprises",
   "Own supplies & equipment",
   "20 years experience",
   "Locally owned",

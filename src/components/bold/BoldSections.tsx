@@ -98,8 +98,8 @@ export function BoldWhy() {
     },
     {
       Icon: IconShield,
-      t: "Guaranteed clean",
-      b: "Something missed? We come back free.",
+      t: "Owner-run",
+      b: `${site.owner}'s on every job, personally — not a rotating crew.`,
     },
     {
       Icon: IconSparkle,
@@ -177,7 +177,7 @@ export function BoldWhy() {
                   style={{ letterSpacing: "0.22em" }}
                 >
                   <textPath href="#why-badge-arc" startOffset="0">
-                    Guaranteed clean · Flat price · Free estimate ·
+                    Personally run · Flat price · Free estimate ·
                   </textPath>
                 </text>
               </svg>
@@ -329,7 +329,7 @@ export function BoldFooter() {
           <p>
             © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
-          <p>Free estimates · Guaranteed service</p>
+          <p>Free estimates · Flat pricing</p>
         </div>
       </div>
     </footer>

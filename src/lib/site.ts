@@ -95,11 +95,11 @@ export const services: Service[] = [
  * paragraph, which names their business and claims all-natural/non-toxic
  * methods we have no basis to assert on her behalf.
  */
-export const servicesIntro = `${site.name} has kept ${site.city} homes, offices and job sites spotless for ${site.yearsExperience} years. ${site.owner} runs every job personally — the same trusted hands each visit, not a rotating crew. Whether it's weekly upkeep, a top-to-bottom deep clean before a move, or clearing drywall dust after a build, the standard doesn't change. Every estimate is free and every clean is guaranteed: if something gets missed, we come back and put it right at no charge. Locally owned, personally run, and answerable to you — not a franchise office three states away.`;
+export const servicesIntro = `${site.name} has kept ${site.city} homes, offices and job sites spotless for ${site.yearsExperience} years. ${site.owner} runs every job personally — the same trusted hands each visit, not a rotating crew. Whether it's weekly upkeep, a top-to-bottom deep clean before a move, or clearing drywall dust after a build, the standard doesn't change. Every estimate is free and every price is flat — the number we quote is the number you pay, no surprises added later. Locally owned, personally run, and answerable to you — not a franchise office three states away.`;
 
 export const stats = [
   { value: "20", suffix: "+", label: "Years of experience" },
-  { value: "100", suffix: "%", label: "Satisfaction guaranteed" },
+  { value: "Flat", suffix: "", label: "Pricing, no surprises" },
   { value: "Free", suffix: "", label: "Estimates, always" },
   { value: "901", suffix: "", label: "Locally owned & operated" },
 ];
@@ -123,7 +123,7 @@ export const steps = [
   {
     n: "04",
     title: "Get sparkling results",
-    body: "We finish with a walk-through so you see the result for yourself. If anything's missed, we come back at no charge.",
+    body: "We finish with a walk-through so you see the result for yourself before we call it done.",
   },
 ];
 
@@ -285,7 +285,7 @@ export const faqs = [
   },
   {
     q: "What if I'm not happy with the clean?",
-    a: "Call us within 24 hours and we'll come back and make it right at no charge. That's what the service guarantee means.",
+    a: `Call ${site.owner} directly and tell her what's wrong. She handles every job personally, so you're talking straight to the person who did the work.`,
   },
 ];
 

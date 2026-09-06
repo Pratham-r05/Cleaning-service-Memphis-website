@@ -8,11 +8,11 @@ import { faqs, site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: `FAQ | ${site.name} — ${site.city}, ${site.state}`,
-  description: `Answers on pricing, supplies, scheduling, service area and our guarantee. Still unsure? Call ${site.owner} at ${site.phone}.`,
+  description: `Answers on pricing, supplies, scheduling and service area. Still unsure? Call ${site.owner} at ${site.phone}.`,
   alternates: { canonical: "/faq" },
   openGraph: {
     title: `Frequently asked questions | ${site.name}`,
-    description: `Pricing, supplies, scheduling and the service guarantee — answered in plain English.`,
+    description: `Pricing, supplies and scheduling — answered in plain English.`,
     type: "website",
     locale: "en_US",
   },

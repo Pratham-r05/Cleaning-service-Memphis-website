@@ -151,7 +151,7 @@ export function Hero() {
           <p className="hero-sub mt-6 max-w-xl text-lg leading-relaxed text-brand-800/75">
             {site.owner} has been cleaning {site.city} homes, offices and
             job sites for {site.yearsExperience} years. Houses, deep cleans and
-            construction cleanup — done right, guaranteed, with a free estimate
+            construction cleanup — done right, with a free estimate
             before you commit.
           </p>
 
@@ -173,7 +173,7 @@ export function Hero() {
 
           <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-brand-800/70">
             {[
-              { Icon: IconShield, text: "Service guaranteed" },
+              { Icon: IconShield, text: "Flat pricing, no surprises" },
               { Icon: IconClock, text: site.hours },
               { Icon: IconPin, text: site.areaLabel },
             ].map(({ Icon, text }) => (
