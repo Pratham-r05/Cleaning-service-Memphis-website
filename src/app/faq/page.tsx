@@ -168,7 +168,7 @@ export default function FaqPage() {
                 href="/#contact"
                 className="shrink-0 cursor-pointer rounded-full bg-ink px-8 py-4 font-display text-[13px] font-bold tracking-[0.08em] text-white uppercase transition-opacity duration-200 hover:opacity-85"
               >
-                Get a free estimate
+                Talk to Nanci
               </Link>
             </Reveal>
           </div>

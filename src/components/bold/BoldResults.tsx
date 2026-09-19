@@ -95,14 +95,14 @@ export function BoldResults() {
               <p className="font-display text-lg leading-snug font-bold tracking-[-0.01em] uppercase sm:text-xl">
                 Want your place on this page?{" "}
                 <span className="font-light text-lime italic">
-                  Estimates are free.
+                  Let&apos;s talk.
                 </span>
               </p>
               <a
                 href="#contact"
                 className="mt-6 inline-block cursor-pointer rounded-full bg-lime px-7 py-3.5 font-display text-[13px] font-bold tracking-[0.08em] text-ink uppercase transition-colors duration-200 hover:bg-lime-dark"
               >
-                Get a free estimate
+                Get your quote
               </a>
             </div>
           </Reveal>

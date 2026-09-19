@@ -23,8 +23,8 @@ const reasons = [
   },
   {
     Icon: IconSparkle,
-    title: "Free estimates, flat prices",
-    body: "We quote after seeing the space, and the number we give you is the number you pay. No hourly surprises.",
+    title: "Free estimates",
+    body: "We quote after seeing the space, once we know the scope and what the job actually needs.",
   },
 ];
 

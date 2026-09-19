@@ -1,5 +1,6 @@
 import { site, services } from "@/lib/site";
-import { IconSparkle, IconPhone, IconMail } from "./Icons";
+import { IconPhone, IconMail } from "./Icons";
+import { Logo } from "./Logo";
 
 export function Footer() {
   return (
@@ -7,12 +8,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-5">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2.5 font-heading text-lg font-bold text-white">
-              <span className="grid size-9 place-items-center rounded-xl bg-accent-500 text-brand-900">
-                <IconSparkle className="size-5" />
-              </span>
-              {site.name}
-            </div>
+            <Logo tone="dark" className="text-[1.15rem] sm:text-[1.38rem]" />
             <p className="mt-4 max-w-sm text-sm leading-relaxed">
               {site.yearsExperience} years cleaning homes, offices and job sites
               across {site.areaLabel}. Locally owned and personally run by{" "}

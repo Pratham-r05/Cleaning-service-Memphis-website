@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { site } from "@/lib/site";
 import { IconMenu, IconClose, IconPhone } from "../Icons";
+import { Logo } from "@/components/Logo";
 
 /**
  * Hrefs are root-relative rather than bare hashes so the same nav works from
@@ -18,8 +19,8 @@ import { IconMenu, IconClose, IconPhone } from "../Icons";
 const links = [
   { href: "/", label: "Home", section: "top" },
   { href: "/#services", label: "Services", section: "services" },
-  { href: "/#results", label: "Before & after", section: "results" },
   { href: "/#process", label: "How it works", section: "process" },
+  { href: "/#results", label: "Before & after", section: "results" },
   { href: "/faq", label: "FAQ" },
 ];
 
@@ -62,10 +63,8 @@ export function BoldNav() {
       const line = (barRef.current?.offsetHeight ?? 0) + 24;
 
       // Whichever section starts closest above that line is the one being
-      // read. Picking it by position rather than by list order matters: the
-      // nav lists "Before & after" ahead of "How it works", but the page runs
-      // the other way round, so walking the list and keeping the last match
-      // marked "How it works" the moment you reached the before/after band.
+      // read. Picking it by position rather than by list order keeps this
+      // correct even if the nav is reordered away from document order.
       let current = sectionIds[0];
       let closest = -Infinity;
       for (const id of sectionIds) {
@@ -130,9 +129,13 @@ export function BoldNav() {
       >
         <Link
           href="/"
-          className="font-display text-lg leading-none font-bold tracking-[-0.02em] text-ink uppercase whitespace-nowrap sm:text-xl lg:text-2xl"
+          aria-label={`${site.name} — home`}
+          className="shrink-0 transition-opacity hover:opacity-80"
         >
-          {site.name}
+          <Logo
+            tone="light"
+            className="text-[0.82rem] sm:text-[1rem] lg:text-[1.2rem]"
+          />
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-7 xl:flex">

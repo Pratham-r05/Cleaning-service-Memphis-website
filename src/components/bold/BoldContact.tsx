@@ -20,7 +20,7 @@ export function BoldContact() {
           <Reveal>
             <p className="flex items-center gap-3 font-display text-[12px] font-semibold tracking-[0.16em] text-ink-60 uppercase">
               <span className="h-2 w-2 rounded-full bg-lime" />
-              Free estimate
+              Get in touch
             </p>
             <h2 className="mt-5 font-display text-[clamp(2.1rem,5.4vw,4rem)] leading-[0.95] font-bold tracking-[-0.03em] text-ink uppercase">
               Let&apos;s get your{" "}

@@ -95,11 +95,11 @@ export const services: Service[] = [
  * paragraph, which names their business and claims all-natural/non-toxic
  * methods we have no basis to assert on her behalf.
  */
-export const servicesIntro = `${site.name} has kept ${site.city} homes, offices and job sites spotless for ${site.yearsExperience} years. ${site.owner} runs every job personally — the same trusted hands each visit, not a rotating crew. Whether it's weekly upkeep, a top-to-bottom deep clean before a move, or clearing drywall dust after a build, the standard doesn't change. Every estimate is free and every price is flat — the number we quote is the number you pay, no surprises added later. Locally owned, personally run, and answerable to you — not a franchise office three states away.`;
+export const servicesIntro = `${site.name} has kept ${site.city} homes, offices and job sites spotless for ${site.yearsExperience} years. ${site.owner} runs every job personally — the same trusted hands each visit, not a rotating crew. Whether it's weekly upkeep, a top-to-bottom deep clean before a move, or clearing drywall dust after a build, the standard doesn't change. We quote after seeing the space, so the scope is agreed before anyone starts work. Locally owned, personally run, and answerable to you — not a franchise office three states away.`;
 
 export const stats = [
   { value: "20", suffix: "+", label: "Years of experience" },
-  { value: "Flat", suffix: "", label: "Pricing, no surprises" },
+  { value: "1", suffix: "", label: "Owner on every job" },
   { value: "Free", suffix: "", label: "Estimates, always" },
   { value: "901", suffix: "", label: "Locally owned & operated" },
 ];
@@ -113,7 +113,7 @@ export const steps = [
   {
     n: "02",
     title: "Get a free estimate",
-    body: "We walk the space, agree on the scope, and quote a flat price. No surprises added later.",
+    body: "We walk the space, agree on the scope, and put a number to it before any work starts.",
   },
   {
     n: "03",
@@ -223,7 +223,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "Nanci walked the house, gave me a number, and that was the number I paid. No add-ons at the end, no surprises. That is rare.",
+      "Nanci walked the house first and talked through exactly what she would do before starting. Everything we agreed on got done, right down to the baseboards.",
     name: "Terrence H.",
     location: `${site.city}, ${site.state}`,
     initials: "TH",
@@ -269,7 +269,7 @@ export const faqs = [
   },
   {
     q: "How much does a cleaning cost?",
-    a: "Every space is different, so we quote after seeing it. Estimates are always free and the price we quote is the price you pay.",
+    a: "Every space is different, so we quote after seeing it, once we know the scope. Estimates are always free.",
   },
   {
     q: "How often can you come?",

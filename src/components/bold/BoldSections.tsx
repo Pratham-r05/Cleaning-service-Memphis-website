@@ -4,6 +4,7 @@ import Link from "next/link";
 import { IconCheck, IconClock, IconShield, IconSparkle } from "../Icons";
 import CardFanCarousel, { type CardItem } from "@/components/ui/card-fan-carousel";
 import { Reveal } from "../motion/Reveal";
+import { Logo } from "@/components/Logo";
 
 /* ------------------------------------------------------------------ */
 
@@ -73,7 +74,7 @@ export function BoldServices() {
               href="#contact"
               className="mt-7 inline-block rounded-full bg-lime px-8 py-4 font-display text-[13px] font-bold tracking-[0.08em] text-ink uppercase transition-colors duration-200 hover:bg-lime-dark cursor-pointer"
             >
-              Get a free estimate
+              Get a quote
             </a>
           </Reveal>
         </div>
@@ -93,8 +94,8 @@ export function BoldWhy() {
     },
     {
       Icon: IconCheck,
-      t: "Free estimates",
-      b: "We quote flat, after seeing the space.",
+      t: "Quoted before we start",
+      b: "We quote after seeing the space.",
     },
     {
       Icon: IconShield,
@@ -177,7 +178,7 @@ export function BoldWhy() {
                   style={{ letterSpacing: "0.22em" }}
                 >
                   <textPath href="#why-badge-arc" startOffset="0">
-                    Personally run · Flat price · Free estimate ·
+                    Personally run · Locally owned · 20 years ·
                   </textPath>
                 </text>
               </svg>
@@ -270,9 +271,7 @@ export function BoldFooter() {
       <div className="mx-auto max-w-[1240px] px-6">
         <div className="grid gap-10 border-b border-white/12 pb-12 sm:grid-cols-2 sm:gap-12 lg:grid-cols-[1.6fr_1fr_1fr]">
           <div className="sm:col-span-2 lg:col-span-1">
-            <p className="font-display text-2xl leading-none font-bold tracking-[-0.02em] text-white uppercase sm:text-3xl">
-              {site.name}
-            </p>
+            <Logo tone="dark" className="text-[1.2rem] sm:text-[1.5rem]" />
             <p className="mt-5 max-w-sm leading-relaxed">
               {site.yearsExperience} years cleaning homes, offices and job sites
               across {site.areaLabel}. Locally owned and personally run by{" "}
@@ -325,11 +324,10 @@ export function BoldFooter() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 pt-7 text-sm text-white/45 sm:flex-row sm:justify-between">
+        <div className="pt-7 text-sm text-white/45">
           <p>
             © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
-          <p>Free estimates · Flat pricing</p>
         </div>
       </div>
     </footer>

@@ -173,7 +173,7 @@ export function Hero() {
 
           <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-brand-800/70">
             {[
-              { Icon: IconShield, text: "Flat pricing, no surprises" },
+              { Icon: IconShield, text: "Quoted before we start" },
               { Icon: IconClock, text: site.hours },
               { Icon: IconPin, text: site.areaLabel },
             ].map(({ Icon, text }) => (

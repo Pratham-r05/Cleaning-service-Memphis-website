@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { site } from "@/lib/site";
-import { IconPhone, IconMenu, IconClose, IconSparkle } from "./Icons";
+import { IconPhone, IconMenu, IconClose } from "./Icons";
+import { Logo } from "@/components/Logo";
 
 const nav = [
   { href: "#services", label: "Services" },
@@ -52,17 +53,10 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
         <a
           href="#top"
-          className="group flex items-center gap-2.5 font-heading text-lg font-bold text-brand-800"
+          aria-label={`${site.name} — home`}
+          className="shrink-0 transition-opacity hover:opacity-80"
         >
-          <span className="grid size-9 place-items-center rounded-xl bg-brand-600 text-white transition-transform duration-300 group-hover:rotate-12">
-            <IconSparkle className="size-5" />
-          </span>
-          <span className="leading-none">
-            {site.name}
-            <span className="block text-[11px] font-normal tracking-wide text-brand-600/80">
-              {site.city}, {site.state}
-            </span>
-          </span>
+          <Logo tone="light" className="text-[0.8rem] sm:text-[0.95rem]" />
         </a>
 
         <nav aria-label="Main" className="hidden items-center gap-8 md:flex">
